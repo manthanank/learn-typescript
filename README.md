@@ -1,5 +1,7 @@
 # TypeScript
 
+![npm](https://img.shields.io/npm/dw/learn-typescript)
+
 ## Introduction
 
 ## Installation
