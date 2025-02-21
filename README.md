@@ -31,6 +31,24 @@ This repository contains a list of TypeScript concepts, examples. It is a guide 
 - [Triple-Slash Directives](#triple-slash-directives)
 - [Type Checking JavaScript Files](#type-checking-javascript-files)
 - [Utility Types](#utility-types)
+- [Type Assertions](#type-assertions)
+- [Type Guards](#type-guards)
+- [Tuple Types](#tuple-types)
+- [Index Signatures](#index-signatures)
+- [Mapped Types](#mapped-types)
+- [Conditional Types](#conditional-types)
+- [Union and Intersection Types](#union-and-intersection-types)
+- [Type Predicates](#type-predicates)
+- [Template Literal Types](#template-literal-types)
+- [Keyof Type Operator](#keyof-type-operator)
+- [Type Narrowing](#type-narrowing)
+- [Call Signatures](#call-signatures)
+- [Discriminated Unions](#discriminated-unions)
+- [Type Inference in Generic Constraints](#type-inference-in-generic-constraints)
+- [Non-null Assertion Operator](#non-null-assertion-operator)
+- [Satisfies Operator](#satisfies-operator)
+- [Method Signatures](#method-signatures)
+- [Abstract Classes](#abstract-classes)
 
 ## Introduction
 
@@ -449,6 +467,311 @@ let person: ReadonlyPerson = {
 };
 
 person.name = 'Jane Doe'; // Error: Cannot assign to 'name' because it is a read-only property
+```
+
+## Type Assertions
+
+Type assertions allow you to tell TypeScript that you know more about the type of a value than it does. It's like a type cast but has no runtime impact.
+
+```typescript
+let someValue: unknown = "Hello World";
+let strLength: number = (someValue as string).length;
+
+// Alternatively using angle bracket syntax
+let strLength2: number = (<string>someValue).length;
+```
+
+## Type Guards
+
+Type guards are expressions that perform runtime checks to guarantee the type in a certain scope.
+
+```typescript
+function isString(value: unknown): value is string {
+    return typeof value === "string";
+}
+
+function processValue(value: number | string) {
+    if (isString(value)) {
+        console.log(value.toUpperCase()); // TypeScript knows value is a string
+    } else {
+        console.log(value.toFixed(2)); // TypeScript knows value is a number
+    }
+}
+```
+
+## Tuple Types
+
+Tuples are arrays with a fixed number of elements whose types are known.
+
+```typescript
+let tuple: [string, number] = ["hello", 10];
+console.log(tuple[0].substring(1)); // "ello"
+console.log(tuple[1].toFixed(1)); // "10.0"
+```
+
+## Index Signatures
+
+Index signatures allow you to create objects with flexible property names.
+
+```typescript
+interface StringMap {
+    [key: string]: string;
+}
+
+let map: StringMap = {
+    "foo": "bar",
+    "baz": "qux"
+};
+```
+
+## Mapped Types
+
+Mapped types allow you to create new types based on old ones by transforming properties.
+
+```typescript
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+};
+
+interface Person {
+    name: string;
+    age: number;
+}
+
+type ReadonlyPerson = Readonly<Person>;
+```
+
+## Conditional Types
+
+Conditional types select one of two possible types based on a condition.
+
+```typescript
+type TypeName<T> = 
+    T extends string ? "string" :
+    T extends number ? "number" :
+    T extends boolean ? "boolean" :
+    "object";
+
+type T0 = TypeName<string>;  // "string"
+type T1 = TypeName<number>;  // "number"
+```
+
+## Union and Intersection Types
+
+Union types allow a value to be one of several types, while intersection types combine multiple types into one.
+
+```typescript
+// Union type
+type StringOrNumber = string | number;
+let value: StringOrNumber = "hello";
+value = 42; // also valid
+
+// Intersection type
+interface HasName { name: string; }
+interface HasAge { age: number; }
+type Person = HasName & HasAge;
+
+let person: Person = {
+    name: "John",
+    age: 25
+};
+```
+
+## Type Predicates
+
+Type predicates are special return type annotations that declare a type guard.
+
+```typescript
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (pet as Fish).swim !== undefined;
+}
+
+let pet: Fish | Bird = getRandomPet();
+if (isFish(pet)) {
+    pet.swim(); // TypeScript knows pet is Fish
+} else {
+    pet.fly(); // TypeScript knows pet is Bird
+}
+```
+
+## Template Literal Types
+
+Template literal types build on string literal types and allow creating complex string patterns.
+
+```typescript
+type World = "world";
+type Greeting = `hello ${World}`;  // type Greeting = "hello world"
+
+type EmailLocaleIDs = "welcome_email" | "email_heading";
+type FooterLocaleIDs = "footer_title" | "footer_sendoff";
+type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`;
+```
+
+## Keyof Type Operator
+
+The keyof operator queries the key type of an object type.
+
+```typescript
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+
+type PersonKeys = keyof Person; // "name" | "age" | "location"
+
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+    return obj[key];
+}
+```
+
+## Type Narrowing
+
+Type narrowing is the process of refining types to more specific ones after type checks.
+
+```typescript
+function padLeft(padding: number | string, input: string) {
+    if (typeof padding === "number") {
+        return " ".repeat(padding) + input; // TypeScript knows padding is number
+    }
+    return padding + input; // TypeScript knows padding is string
+}
+```
+
+## Call Signatures
+
+Call signatures define how functions can be called, including parameters and return types.
+
+```typescript
+interface CalculatorFunction {
+    (x: number, y: number): number;
+    mode?: "add" | "subtract";
+}
+
+const add: CalculatorFunction = (x, y) => x + y;
+add.mode = "add";
+
+console.log(add(5, 3)); // 8
+```
+
+## Discriminated Unions
+
+Discriminated unions are a pattern where you use a common property to narrow down the type of an object.
+
+```typescript
+interface Circle {
+    kind: "circle";
+    radius: number;
+}
+
+interface Square {
+    kind: "square";
+    sideLength: number;
+}
+
+type Shape = Circle | Square;
+
+function getArea(shape: Shape) {
+    switch (shape.kind) {
+        case "circle":
+            return Math.PI * shape.radius ** 2;
+        case "square":
+            return shape.sideLength ** 2;
+    }
+}
+```
+
+## Type Inference in Generic Constraints
+
+TypeScript can infer types in generic constraints based on the usage context.
+
+```typescript
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
+}
+
+const person = {
+    name: "John",
+    age: 30
+};
+
+const name = getProperty(person, "name"); // TypeScript infers string type
+const age = getProperty(person, "age");   // TypeScript infers number type
+```
+
+## Non-null Assertion Operator
+
+The non-null assertion operator (!) tells TypeScript that a value cannot be null or undefined.
+
+```typescript
+function getValue(): string | undefined {
+    return "hello";
+}
+
+const value = getValue()!; // TypeScript treats value as string
+console.log(value.length); // No error
+```
+
+## Satisfies Operator
+
+The satisfies operator ensures a value matches a type without widening its inference.
+
+```typescript
+type RGB = readonly [red: number, green: number, blue: number];
+type Color = RGB | string;
+
+const palevioletred = [219, 112, 147] satisfies RGB;
+// Type is exactly [219, 112, 147], not number[]
+```
+
+## Method Signatures
+
+Method signatures define how methods within interfaces or types should be structured.
+
+```typescript
+interface DateTime {
+    toUTC(): Date;
+    toString(format?: string): string;
+    compare(other: DateTime): number;
+}
+
+class MyDateTime implements DateTime {
+    toUTC(): Date {
+        return new Date();
+    }
+    toString(format?: string): string {
+        return format ? "formatted date" : "default format";
+    }
+    compare(other: DateTime): number {
+        return 0;
+    }
+}
+```
+
+## Abstract Classes
+
+Abstract classes provide a base class that other classes can extend from, with some implementation details left undefined.
+
+```typescript
+abstract class Animal {
+    abstract makeSound(): void;
+    
+    move(): void {
+        console.log("Moving...");
+    }
+}
+
+class Dog extends Animal {
+    makeSound(): void {
+        console.log("Woof!");
+    }
+}
+
+// Cannot instantiate abstract class
+// const animal = new Animal(); // Error
+const dog = new Dog();
+dog.makeSound(); // "Woof!"
+dog.move();      // "Moving..."
 ```
 
 ## License
