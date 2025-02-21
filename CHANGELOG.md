@@ -1,4 +1,13 @@
-# 1.1.0 (2023-12-16)
+# [1.2.0](https://github.com/manthanank/learn-typescript/compare/v1.1.0...v1.2.0) (2025-02-21)
+
+
+### Features
+
+* Add TypeScript concepts and examples to README.md ([99f082c](https://github.com/manthanank/learn-typescript/commit/99f082c5f1b5a5586b81c5673d76ef260b4fb31c))
+
+
+
+# [1.1.0](https://github.com/manthanank/learn-typescript/compare/f029a4e235142ed0a2ef5c60eda3d2363a44ba4a...v1.1.0) (2023-12-16)
 
 
 ### Features
