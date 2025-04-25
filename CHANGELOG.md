@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/manthanank/learn-typescript/compare/v1.2.0...v1.3.0) (2025-04-25)
+
+
+### Features
+
+* initialize TypeScript project with Express and Todo API ([49b640c](https://github.com/manthanank/learn-typescript/commit/49b640c1b01ba23d7830bbf3889b0ef789bf2581))
+
+
+
 # [1.2.0](https://github.com/manthanank/learn-typescript/compare/v1.1.0...v1.2.0) (2025-02-21)
 
 
