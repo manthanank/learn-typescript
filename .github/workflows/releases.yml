@@ -7,6 +7,9 @@ on:
 jobs:
   changelog:
     runs-on: ubuntu-latest
+    if: ${{ secrets.PA_TOKEN != '' }}
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
