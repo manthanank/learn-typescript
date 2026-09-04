@@ -1,23 +1,38 @@
 {
   "name": "learn-typescript",
-  "version": "1.0.0",
-  "description": "A simple Node.js application using TypeScript",
-  "main": "index.ts",
+  "version": "2.0.0",
+  "description": "Learn Modern TypeScript 5.x - Comprehensive guide, design patterns, type systems, compiler internals, and best practices",
+  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.ts"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manthanank/learn-typescript.git"
   },
   "keywords": [
-    "typescript"
+    "typescript",
+    "typescript5",
+    "type-system",
+    "generics",
+    "compiler",
+    "nodejs"
   ],
-  "author": "Manthan Ank",
+  "author": "Manthan Ankolekar",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/manthanank/learn-typescript/issues"
   },
-  "homepage": "https://github.com/manthanank/learn-typescript#readme"
+  "homepage": "https://github.com/manthanank/learn-typescript#readme",
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
 }

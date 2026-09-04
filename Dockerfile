@@ -1,20 +1,20 @@
-# Use Node.js 14 LTS version as base image
-FROM node:14
+# Use an official Node.js runtime as a parent image
+FROM node:20-alpine
 
-# Set the working directory in the container
+# Set the working directory in the container to /app
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install dependencies
+# Install any needed packages specified in package.json
 RUN npm install
 
-# Copy all files from the current directory to the working directory in the container
+# Bundle app source inside the docker image
 COPY . .
 
-# Expose the port the app runs on
-EXPOSE 3000
+# Build TypeScript application
+RUN npm run build
 
-# Command to run the application
-CMD ["node", "index.js"]
+# Run application
+CMD [ "npm", "start" ]
