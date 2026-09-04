@@ -1,6 +1,6 @@
 {
   "name": "learn-typescript",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Learn Modern TypeScript 5.x - Comprehensive guide, design patterns, type systems, compiler internals, and best practices",
   "type": "module",
   "main": "dist/index.js",

@@ -1,8 +1,11 @@
-# [2.0.0](https://github.com/manthanank/learn-typescript/compare/v1.3.0...v2.0.0) (2026-09-04)
+# [2.1.0](https://github.com/manthanank/learn-typescript/compare/v1.3.0...v2.1.0) (2026-09-04)
+
 
 ### Features
 
-* add TypeScript 5 application structure with best practices guidelines and comprehensive guide
+* add TypeScript 5 application structure with best practices guidelines and comprehensive guide ([964699b](https://github.com/manthanank/learn-typescript/commit/964699b569991ff09238cf11c4406623160975ae))
+
+
 
 # [1.3.0](https://github.com/manthanank/learn-typescript/compare/v1.2.0...v1.3.0) (2025-04-25)
 
@@ -32,3 +35,6 @@
 * updated ([d178451](https://github.com/manthanank/learn-typescript/commit/d178451cee0f801884cee7aecb7f03e8ce6f1e00))
 * updated ([156246e](https://github.com/manthanank/learn-typescript/commit/156246e3f9a73c2a3841c5464f365b7669046841))
 * updated releases json file ([ba6a04e](https://github.com/manthanank/learn-typescript/commit/ba6a04e8429080ac0258bbb16f088121cc8b2bbb))
+
+
+
