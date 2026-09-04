@@ -7,15 +7,25 @@ on:
 jobs:
   changelog:
     runs-on: ubuntu-latest
-    if: ${{ secrets.PA_TOKEN != '' }}
     permissions:
       contents: write
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check Release Token
+        id: check_token
+        run: |
+          if [ -n "${{ secrets.PA_TOKEN }}" ]; then
+            echo "has_token=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_token=false" >> $GITHUB_OUTPUT
+            echo "PA_TOKEN secret not configured. Skipping release generation."
+          fi
+
       - name: conventional Changelog Action
         id: changelog
+        if: steps.check_token.outputs.has_token == 'true'
         uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.PA_TOKEN }}
@@ -23,7 +33,7 @@ jobs:
 
       - name: create release
         uses: actions/create-release@v1
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        if: steps.check_token.outputs.has_token == 'true' && steps.changelog.outputs.skipped == 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.PA_TOKEN }}
         with:

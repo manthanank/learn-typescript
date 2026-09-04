@@ -7,19 +7,31 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_PASSWORD != '' }}
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check DockerHub Credentials
+        id: check_creds
+        run: |
+          if [ -n "${{ secrets.DOCKERHUB_USERNAME }}" ] && [ -n "${{ secrets.DOCKERHUB_PASSWORD }}" ]; then
+            echo "has_creds=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_creds=false" >> $GITHUB_OUTPUT
+            echo "DockerHub credentials not configured. Skipping build and push."
+          fi
+
       - name: DockerHub Login
+        if: steps.check_creds.outputs.has_creds == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build the Docker image
+        if: steps.check_creds.outputs.has_creds == 'true'
         run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/learn-typescript
 
       - name: Docker Push
+        if: steps.check_creds.outputs.has_creds == 'true'
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/learn-typescript
